@@ -9,21 +9,13 @@ import { retrieveContributionData } from './modules/github';
 export default function Home() {
   const [contributions, setContributions] = useState([]);
 
-  const github_token_id = process.env.GITHUB_TOKEN_ID;
-
-  const octokit = new Octokit({
-    auth: github_token_id,
-  });
-
-  const getContributions = async () => {
-    const res = await retrieveContributionData('demirsergen');
-    console.log(res);
-  };
-
   useEffect(() => {
     const fetchContributions = async () => {
       try {
-        retrieveContributionData('demirsergen');
+        const response = await retrieveContributionData(
+          'demirsergen'
+        );
+        console.log(response);
       } catch (error) {
         console.error(error);
       }

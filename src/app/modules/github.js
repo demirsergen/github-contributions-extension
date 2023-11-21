@@ -1,26 +1,20 @@
 const TOKEN = process.env.GITHUB_TOKEN_ID;
 const query = `
-query {
-  viewer {
-    login
-    contributionsCollection {
-      user (login: "demirsergen") {
-        id
-        contributionsCollection {
-          contributionCalendar {
-            totalContributions
-            weeks {
-              contributionDays {
-                contributionCount
-                date
-              }
+query($username:String!) { 
+    user(login: $username){
+      contributionsCollection {
+        contributionCalendar {
+          totalContributions
+          weeks {
+            contributionDays {
+              contributionCount
+              date
             }
           }
         }
       }
     }
   }
-}
 `;
 
 export async function retrieveContributionData(username) {
