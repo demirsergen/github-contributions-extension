@@ -6,6 +6,8 @@ import { retrieveContributionData } from './modules/github';
 
 export default function Home() {
   const [contributions, setContributions] = useState([]);
+  const [totalContributions, setTotalContributions] = useState(0);
+  const [dailyContributions, setDailyContributions] = useState([]);
 
   useEffect(() => {
     const fetchContributions = async () => {
@@ -13,7 +15,22 @@ export default function Home() {
         const response = await retrieveContributionData(
           'demirsergen'
         );
-        console.log(response);
+        setContributions(response);
+        setTotalContributions(
+          response.data.user.contributionsCollection
+            .contributionCalendar.totalContributions
+        );
+        setDailyContributions(
+          response.data.user.contributionsCollection.contributionCalendar.weeks.slice(
+            -1
+          )
+        );
+
+        console.log(
+          response.data.user.contributionsCollection.contributionCalendar.weeks.slice(
+            -1
+          )
+        );
       } catch (error) {
         console.error(error);
       }
@@ -27,12 +44,16 @@ export default function Home() {
       <div className="App">
         <h1>GitHub Contributions for the Last Week</h1>
         <div>
-          {contributions?.map((day, index) => (
-            <div key={index}>
-              <p>{moment(day.date).format('dddd, MMMM Do')}</p>
-              <p>Contributions: {day.count}</p>
-            </div>
-          ))}
+          {dailyContributions[0]?.contributionDays.map(
+            (day, index) => (
+              <div key={index}>
+                <p>{moment(day.date).format('dddd, MMMM Do')}</p>
+                <p>Contributions: {day.contributionCount}</p>
+              </div>
+            )
+          )}
+
+          <h1>Total contributions: {totalContributions}</h1>
         </div>
       </div>
     </main>

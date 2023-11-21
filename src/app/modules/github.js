@@ -1,4 +1,5 @@
-const TOKEN = process.env.GITHUB_TOKEN_ID;
+const TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN_ID;
+
 const query = `
 query($username:String!) { 
     rateLimit {
