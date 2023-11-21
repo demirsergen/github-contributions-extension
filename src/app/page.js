@@ -4,37 +4,40 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import { Octokit } from 'octokit';
+import { retrieveContributionData } from './modules/github';
 
 export default function Home() {
   const [contributions, setContributions] = useState([]);
 
+  const github_token_id = process.env.GITHUB_TOKEN_ID;
+
   const octokit = new Octokit({
-    auth: 'YOUR-TOKEN',
+    auth: github_token_id,
   });
 
-  // useEffect(() => {
-  //   const fetchContributions = async () => {
-  //     try {
-  //       // Replace 'YOUR_GITHUB_USERNAME' with the user's GitHub username
-  //       const username = 'demirsergen';
-  //       const response = await axios.get(
-  //         `https://api.github.com/users/${username}/contributions`
-  //       );
-  //       setContributions(response.data);
-  //     } catch (error) {
-  //       console.error('Error fetching GitHub contributions:', error);
-  //     }
-  //   };
+  const getContributions = async () => {
+    const res = await retrieveContributionData('demirsergen');
+    console.log(res);
+  };
 
-  //   fetchContributions();
-  // }, []);
+  useEffect(() => {
+    const fetchContributions = async () => {
+      try {
+        retrieveContributionData('demirsergen');
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchContributions();
+  }, []);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="App">
         <h1>GitHub Contributions for the Last Week</h1>
         <div>
-          {contributions.map((day, index) => (
+          {contributions?.map((day, index) => (
             <div key={index}>
               <p>{moment(day.date).format('dddd, MMMM Do')}</p>
               <p>Contributions: {day.count}</p>
