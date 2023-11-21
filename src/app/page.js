@@ -1,9 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import moment from 'moment';
-import { Octokit } from 'octokit';
 import { retrieveContributionData } from './modules/github';
 
 export default function Home() {

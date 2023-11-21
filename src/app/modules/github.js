@@ -1,6 +1,10 @@
 const TOKEN = process.env.GITHUB_TOKEN_ID;
 const query = `
 query($username:String!) { 
+    rateLimit {
+      used
+      limit
+    }
     user(login: $username){
       contributionsCollection {
         contributionCalendar {
@@ -8,7 +12,7 @@ query($username:String!) {
           weeks {
             contributionDays {
               contributionCount
-              date
+              date 
             }
           }
         }
