@@ -56,10 +56,17 @@ export default function Home() {
             )
           )}
         </div>
-
-        {/* <p>{moment(day.date).format('dddd, MMMM Do')}</p>
-        <p>Contributions: {day.contributionCount}</p>
-        <h1>Total contributions: {totalContributions}</h1> */}
+        <div className="bg-red-100 mt-2">
+          {dailyContributions[0]?.contributionDays.map(
+            (day, index) => (
+              <>
+                <p>{moment(day.date).format('dddd, MMMM Do')}</p>
+                <p>Contributions: {day.contributionCount}</p>
+                <h1>Total contributions: {totalContributions}</h1>
+              </>
+            )
+          )}
+        </div>
       </div>
     </main>
   );
