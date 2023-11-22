@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import moment from 'moment';
 import { retrieveContributionData } from './modules/github';
+import Box from './components/Box';
 
 export default function Home() {
   const [contributions, setContributions] = useState([]);
@@ -43,18 +44,22 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="App">
         <h1>GitHub Contributions for the Last Week</h1>
-        <div>
+        <div className="flex gap-1">
           {dailyContributions[0]?.contributionDays.map(
             (day, index) => (
-              <div key={index}>
-                <p>{moment(day.date).format('dddd, MMMM Do')}</p>
-                <p>Contributions: {day.contributionCount}</p>
-              </div>
+              <Box
+                day={day}
+                key={index}
+                contributionCount={day.contributionCount}
+                title={moment(day.date).format('dddd, MMMM Do')}
+              />
             )
           )}
-
-          <h1>Total contributions: {totalContributions}</h1>
         </div>
+
+        {/* <p>{moment(day.date).format('dddd, MMMM Do')}</p>
+        <p>Contributions: {day.contributionCount}</p>
+        <h1>Total contributions: {totalContributions}</h1> */}
       </div>
     </main>
   );
