@@ -6,7 +6,6 @@ import { retrieveContributionData } from './modules/github';
 import Box from './components/Box';
 
 export default function Home() {
-  const [contributions, setContributions] = useState([]);
   const [totalContributions, setTotalContributions] = useState(0);
   const [dailyContributions, setDailyContributions] = useState([]);
 
@@ -16,7 +15,6 @@ export default function Home() {
         const response = await retrieveContributionData(
           'demirsergen'
         );
-        setContributions(response);
         setTotalContributions(
           response.data.user.contributionsCollection
             .contributionCalendar.totalContributions
@@ -56,16 +54,21 @@ export default function Home() {
             )
           )}
         </div>
-        <div className="bg-red-100 mt-2">
+        <div className="bg-teal-800 mt-2 p-2 text-white rounded flex flex-col gap-2">
+          <h1 className="font-bold mb-2">
+            Detailed Look to your week:
+          </h1>
           {dailyContributions[0]?.contributionDays.map(
             (day, index) => (
-              <>
+              <div key={index} className="bg-teal-700">
                 <p>{moment(day.date).format('dddd, MMMM Do')}</p>
                 <p>Contributions: {day.contributionCount}</p>
-                <h1>Total contributions: {totalContributions}</h1>
-              </>
+              </div>
             )
           )}
+          <h1 className="font-bold mt-2">
+            Total contributions this year: {totalContributions}
+          </h1>
         </div>
       </div>
     </main>
