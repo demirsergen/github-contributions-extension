@@ -13,7 +13,7 @@ const Box = ({ day, title, contributionCount }) => {
 
     // Iterate through thresholds and find the corresponding class
     for (let i = 0; i < thresholds.length; i++) {
-      if (contributionCount <= thresholds[i]) {
+      if (contributionCount < thresholds[i]) {
         return colors[i];
       }
     }
